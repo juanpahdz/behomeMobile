@@ -8,6 +8,9 @@ import {ApplicationProvider, IconRegistry} from '@ui-kitten/components';
 import { EvaIconsPack } from '@ui-kitten/eva-icons';
 
 import HomePage from './src/screens/customer/homepage/HomePageScreen'
+import LoginPage from './src/screens/auth/login/LoginScreen'
+import RegisterPage from './src/screens/auth/register/RegisterScreen'
+import EditPage from './src/screens/customer/apartments/edit/EditScreen'
 
 const Stack = createStackNavigator(); //inicializa la navegación
 
@@ -20,6 +23,22 @@ const App = () => {
           component={HomePage}
           options={{headerShown: false}}
         />
+        <Stack.Screen
+          name="LoginScreen"
+          component={LoginPage}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="RegisterScreen"
+          component={RegisterPage}
+          options={{headerShown: false}}
+        />
+
+        <Stack.Screen
+          name="EditScreen"
+          component={EditPage}
+        />
+
       </Stack.Navigator>
     </NavigationContainer>
   );
