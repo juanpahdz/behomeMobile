@@ -5,17 +5,26 @@ const EditStyles = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: 'row',
+        marginTop: -20
       },
       layout: {
         flex: 1,
-        justifyContent: 'center',
         alignItems: 'center',
-        padding: 20
+        padding: 20,
+        backgroundColor: 'white'
       },
 
-      input: {
-        marginVertical: 4,
+      headerHorizontalBaner: {
+          width:Dimensions.get("screen").width,
+          height: 200,
       },
+
+      headerHorizontalBanerImage:{
+          flex: 1,
+          height: 200,
+          resizeMode: "cover",
+      }
+      
 });
 
 export default EditStyles

@@ -20,10 +20,14 @@ const HomePage = ({navigation}) => {
     navigation.navigate('EditScreen');
   }
 
+  const goToLogin = () =>{
+    navigation.navigate('LoginScreen');
+  }
+
   const StarIcon = props => <Icon {...props} name="star" />;
 
   return (
-    <ScrollView vertical={true}>
+    <ScrollView vertical={true} >
       <Text style={MainStyles.textLogo} category="h4">
         beHome.com
       </Text>
@@ -38,7 +42,9 @@ const HomePage = ({navigation}) => {
 
       <ScrollView
         horizontal={true}
-        contentOffset={{x: Dimensions.get('screen').width - 94, y: 0}}>
+        contentOffset={{x: Dimensions.get('screen').width - 94, y: 0}}
+        showsHorizontalScrollIndicator={false}
+        >
         <Layout style={Styles.headerSlider}>
           <View style={Styles.frontBaner}>
             <View style={Styles.frontBanerOverlay}>
@@ -495,6 +501,10 @@ const HomePage = ({navigation}) => {
               </View>
             </Layout>
           </View>
+
+          <Button onPress={() => goToLogin()} style={MainStyles.primaryButton}>
+            Ver Mas
+          </Button>
         </Layout>
       </Layout>
     </ScrollView>
