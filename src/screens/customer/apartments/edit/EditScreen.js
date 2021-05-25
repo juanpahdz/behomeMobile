@@ -20,8 +20,6 @@ const useInputState = (initialValue = '') => {
     return { value, onChangeText: setValue };
 };
 
-
-
 const EditScreen = ({navigation}) => {
 
     const RightIcon = (props) => (
@@ -48,10 +46,10 @@ const googleMapsInputState = useInputState();
                 </Layout>
                 <Layout style={MainStyles.titleLayout}>
                     <Text style={MainStyles.subTextLogo}>
-                        Bienvenido a
+                        Comineza a
                     </Text>
                     <Text style={MainStyles.bigTextLogo} category='h2'>
-                        beHome
+                        Editar
                     </Text>
                 </Layout>
                 <Input

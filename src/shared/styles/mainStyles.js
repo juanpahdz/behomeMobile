@@ -104,10 +104,21 @@ const MainStyles = StyleSheet.create({
           top: 20,
           left: 20,
           zIndex:20,
-          backgroundColor: "white",
+          backgroundColor: "#fff",
+          opacity: 1,
           borderColor: "white",
-          color: Variables.blackColor
+          padding:20
       },
+
+      closeButtonText:{
+          color: Variables.blackColor,
+          fontSize: 40,
+          lineHeight: 15,
+          backgroundColor: "transparent",
+          opacity: 1,
+      }
+
+
 });
 
 export default MainStyles
