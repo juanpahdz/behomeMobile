@@ -7,6 +7,7 @@ import * as eva from '@eva-design/eva';
 import {ApplicationProvider, IconRegistry} from '@ui-kitten/components';
 import { EvaIconsPack } from '@ui-kitten/eva-icons';
 
+import SpashScreen from './src/screens/splashscreen/SplashScreen'
 import HomePage from './src/screens/customer/homepage/HomePageScreen'
 import LoginPage from './src/screens/auth/login/LoginScreen'
 import RegisterPage from './src/screens/auth/register/RegisterScreen'
@@ -18,6 +19,11 @@ const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator>
+        <Stack.Screen
+          name="SplashScreen"
+          component={SpashScreen}
+          options={{headerShown: false}}
+        />
         <Stack.Screen
           name="HomePage"
           component={HomePage}
