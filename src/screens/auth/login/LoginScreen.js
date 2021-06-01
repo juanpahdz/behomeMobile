@@ -1,6 +1,8 @@
 import React, {useState} from 'react';
 import {View, Image, ScrollView, TouchableWithoutFeedback, Link} from 'react-native';
 
+const API = process.env.REACT_APP_API;
+
 import styles from './LoginStyles';
 import MainStyles from '../../../shared/styles/mainStyles';
 
@@ -8,13 +10,13 @@ import {Layout, Input, Text, Button, Icon} from '@ui-kitten/components';
 
 const LoginScreen = ({navigation}) => {
 
-const [value, setValue] = React.useState('');
 const [secureTextEntry, setSecureTextEntry] = React.useState(true);
 
 const useInputState = (initialValue = '') => {
   const [value, setValue] = React.useState(initialValue);
   return {value, onChangeText: setValue};
 };
+
 
 const toggleSecureEntry = () => {
     setSecureTextEntry(!secureTextEntry);
@@ -34,11 +36,24 @@ const toggleSecureEntry = () => {
     <Icon {...props} name="person-outline"/>
   );
 
-  const usernameInputState = useInputState();
-  const passwordInputState = useInputState();
-  const habitacionesInputState = useInputState();
-  const metrosInputState = useInputState();
-  const googleMapsInputState = useInputState();
+  const username = useInputState();
+  const password = useInputState();
+
+  const handleSubmit = async (e) => {
+  const res = await fetch(`http://behomemobileapi.us-east-2.elasticbeanstalk.com/login`, {
+      method: 'POST',
+      headers: {
+          Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email: username.value,
+        password: password.value,
+      }),
+    });
+    data = await res.json();
+    console.log(data)
+  };
 
   return (
     <Layout style={styles.container}>
@@ -64,10 +79,9 @@ const toggleSecureEntry = () => {
             placeholderStyle={styles.loginTextStyle}
             size="medium"
             placeholder="Ingresa tu correo electronico"
-            {...usernameInputState}
+            {...username}
           />
          <Input
-            value={value}
             style={styles.logininputstyle}
             textStyle={styles.loginTextStyle}
             placeholder='Ingresa tu Contraseña'
@@ -75,14 +89,14 @@ const toggleSecureEntry = () => {
             placeholderTextColor="white"
             accessoryRight={renderIcon}
             secureTextEntry={secureTextEntry}
-            onChangeText={nextValue => setValue(nextValue)}
+            {...password}
             />
         </Layout>
         <Layout style={styles.LastSettigns}>
-            <Button onPress={() => goToRegister()} style={[MainStyles.primaryButton, {marginVertical:0}]}>
+            <Button onPress={() => handleSubmit()} style={[MainStyles.primaryButton, {marginVertical:0}]}>
                 Iniciar Session
             </Button>
-            <Text style={styles.LastSettignsText}>
+            <Text onPress={() => goToRegister()} style={styles.LastSettignsText}>
                 No estas registrado? Regístrate aquí
             </Text>
         </Layout>

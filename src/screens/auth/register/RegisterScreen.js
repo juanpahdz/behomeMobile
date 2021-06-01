@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import { View, Image, Alert, ScrollView} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import { View, Image, Alert, ScrollView, ToastAndroid} from 'react-native';
 
 import { 
     Layout, 
@@ -20,12 +20,31 @@ const useInputState = (initialValue = '') => {
 
 const RegisterScreen = ({navigation}) => {
 
-const TituloInputState = useInputState();
-const precioInputState = useInputState();
-const habitacionesInputState = useInputState();
-const metrosInputState = useInputState();
-const passwordInputState = useInputState();
-const googleMapsInputState = useInputState();
+const name = useInputState();
+const email = useInputState();
+const country = useInputState();
+const city = useInputState();
+const password = useInputState();
+
+    const handleSubmit = async () => {
+        console.log("working")
+      const res = await fetch(`http://behomemobileapi.us-east-2.elasticbeanstalk.com/createusers`, {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          fullname: name.value,
+          email: email.value,
+          city: city.value,
+          country: country.value,
+          password: password.value,
+        }),
+      });
+      data = await res.json();
+      console.log(data)
+    };
 
     return <ScrollView 
     style={{paddingVertical: 0}}
@@ -46,13 +65,14 @@ const googleMapsInputState = useInputState();
                     beHome
                 </Text>
             </Layout>
+
             <Input
                 textStyle={MainStyles.textInputStyle}
                 label={evaProps => <Text {...evaProps} style={MainStyles.Label}>Nombre Completo</Text>}
                 style={MainStyles.input}
                 size='medium'
                 placeholder='Jhon Alejandro Medic'
-                {...TituloInputState}
+                {...name}
             />
             <Input
                 textStyle={MainStyles.textInputStyle}
@@ -60,7 +80,7 @@ const googleMapsInputState = useInputState();
                 style={MainStyles.input}
                 size='medium'
                 placeholder='juanphadz@sdas.com'
-                {...precioInputState}
+                {...email}
 
             />
             <Input
@@ -69,7 +89,7 @@ const googleMapsInputState = useInputState();
                 style={MainStyles.input}
                 size='medium'
                 placeholder='Colombia'
-                {...habitacionesInputState}
+                {...country}
             />
             <Input
                 textStyle={MainStyles.textInputStyle}
@@ -77,7 +97,7 @@ const googleMapsInputState = useInputState();
                 style={MainStyles.input}
                 size='medium'
                 placeholder='Medellin'
-                {...metrosInputState}
+                {...city}
             />
 
             <Input
@@ -87,10 +107,12 @@ const googleMapsInputState = useInputState();
                 size='medium'
                 placeholder='********'
                 secureTextEntry={true}
-                {...passwordInputState}
+                {...password}
             />
 
-            <Button style={MainStyles.primaryButton}>
+            <Button 
+                onPress={() => handleSubmit()}
+                style={MainStyles.primaryButton}>
                 Registrarse
             </Button>
             <Text style={styles.LastSettignsText}>
