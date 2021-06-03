@@ -1,4 +1,5 @@
 import React from 'react';
+import Toast from 'react-native-toast-message';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -12,6 +13,7 @@ import HomePage from './src/screens/customer/homepage/HomePageScreen'
 import LoginPage from './src/screens/auth/login/LoginScreen'
 import RegisterPage from './src/screens/auth/register/RegisterScreen'
 import EditPage from './src/screens/customer/apartments/edit/EditScreen'
+import ApartmentsScreen from './src/screens/customer/apartments/ApartmentsScreen'
 
 const Stack = createStackNavigator(); //inicializa la navegación
 
@@ -45,6 +47,12 @@ const App = () => {
           component={EditPage}
         />
 
+        <Stack.Screen
+          name="ApartmentsScreen"
+          component={ApartmentsScreen}
+          options={{headerShown: false}}
+        />
+
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -56,5 +64,6 @@ export default () => (
     <ApplicationProvider {...eva} theme={eva.light}>
       <App />
     </ApplicationProvider>
+    <Toast ref={(ref) => Toast.setRef(ref)} />
   </>
 );

@@ -1,6 +1,8 @@
 import React, {useState} from 'react';
 import {View, Image, ScrollView, TouchableWithoutFeedback, Link} from 'react-native';
 
+import Toast from 'react-native-toast-message';
+
 const API = process.env.REACT_APP_API;
 
 import styles from './LoginStyles';
@@ -39,20 +41,49 @@ const toggleSecureEntry = () => {
   const username = useInputState();
   const password = useInputState();
 
-  const handleSubmit = async (e) => {
-  const res = await fetch(`http://behomemobileapi.us-east-2.elasticbeanstalk.com/login`, {
-      method: 'POST',
-      headers: {
-          Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        email: username.value,
-        password: password.value,
-      }),
-    });
-    data = await res.json();
-    console.log(data)
+  const handleSubmit = async e => {
+    if (username.value == '' || password.value == '') {
+      Toast.show({
+        type: 'error',
+        text1: 'Debes ingresar todos los campos antes de enviar',
+        visibilityTime: 3000,
+        autoHide: true,
+      });
+    } else {
+      const res = await fetch(
+        `http://behomemobileapi.us-east-2.elasticbeanstalk.com/login`,
+        {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            email: username.value,
+            password: password.value,
+          }),
+        },
+      );
+
+      await res
+        .json()
+        .then(data => {
+          console.log(data);
+          if (typeof data['error'] != 'undefined') {
+            Toast.show({
+              type: 'error',
+              text1: data.error,
+              visibilityTime: 3000,
+              autoHide: true,
+            });
+          } else {
+            navigation.navigate('ApartmentsScreen');
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+    }
   };
 
   return (

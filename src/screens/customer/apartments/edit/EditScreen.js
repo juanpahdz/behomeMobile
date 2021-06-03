@@ -1,7 +1,9 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,Image,ScrollView
 } from 'react-native';
+
+import Toast from 'react-native-toast-message';
 
 import { 
     Layout, 
@@ -15,22 +17,75 @@ import {
 import styles from './EditStyles';
 import MainStyles from '../../../../shared/styles/mainStyles'
 
-const useInputState = (initialValue = '') => {
-    const [value, setValue] = React.useState(initialValue);
-    return { value, onChangeText: setValue };
-};
+const EditScreen = ({ route, navigation:{ goBack} }) => {
 
-const EditScreen = ({navigation}) => {
+    const { id, getApart} = route.params;
+
+    const [tituloInputValue, setTituloInputValue] = React.useState('');
+    const [priceInputValue, setPriceInputValue] = React.useState('');
+    const [roomsInputValue, setRoomsInputValue] = React.useState('');
+    const [metersInputValue, setMetersInputValue] = React.useState('');
+    const [locationInputValue, setLocationInputValue] = React.useState('');
+
+    const getData = async () => {
+        console.log(id)
+        const res = await fetch(`http://behomemobileapi.us-east-2.elasticbeanstalk.com/readapartment/${id}`);
+        const data = await res.json();
+
+        setTituloInputValue(data.title)
+        setPriceInputValue(data.pricenight)
+        setLocationInputValue(data.ubicacion)
+        setRoomsInputValue(data.numrooms)
+        setMetersInputValue(data.meters)
+      };
+
+    useEffect(() => {
+        getData();
+      }, []);
+    
+      const handleUpdate = async e => {
+          const res = await fetch(
+            `http://behomemobileapi.us-east-2.elasticbeanstalk.com/updateapartments/${id}`,
+            {
+              method: 'POST',
+              headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                title: tituloInputValue,
+                pricenight: priceInputValue,
+                numrooms: roomsInputValue,
+                meters: metersInputValue,
+                googlemaps: locationInputValue,
+              }),
+            },
+          );
+    
+          await res
+            .json()
+            .then(data => {
+              if (typeof data['error'] != 'undefined') {
+                Toast.show({
+                  type: 'error',
+                  text1: data.error,
+                  visibilityTime: 3000,
+                  autoHide: true,
+                });
+              } else {
+                getApart()
+                goBack();
+              }
+            })
+            .catch(error => {
+              console.error('Error:', error);
+            });
+      };  
 
     const RightIcon = (props) => (
         <Icon {...props} name='arrow-ios-forward-outline'/>
       );
-
-const TituloInputState = useInputState();
-const precioInputState = useInputState();
-const habitacionesInputState = useInputState();
-const metrosInputState = useInputState();
-const googleMapsInputState = useInputState();
+      
 
   return (
     <ScrollView 
@@ -58,7 +113,8 @@ const googleMapsInputState = useInputState();
                     style={MainStyles.input}
                     size='medium'
                     placeholder='Titulo'
-                    {...TituloInputState}
+                    onChangeText={text => setTituloInputValue(text)}
+                    value={tituloInputValue}
                 />
                 <Input
                     textStyle={MainStyles.textInputStyle}
@@ -66,7 +122,8 @@ const googleMapsInputState = useInputState();
                     style={MainStyles.input}
                     size='medium'
                     placeholder='$1500'
-                    {...precioInputState}
+                    onChangeText={text => setPriceInputValue(text)}
+                    value={priceInputValue}
 
                 />
                 <Input
@@ -75,7 +132,8 @@ const googleMapsInputState = useInputState();
                     style={MainStyles.input}
                     size='medium'
                     placeholder='4'
-                    {...habitacionesInputState}
+                    onChangeText={text => setRoomsInputValue(text)}
+                    value={roomsInputValue}
                 />
                 <Input
                     textStyle={MainStyles.textInputStyle}
@@ -83,17 +141,19 @@ const googleMapsInputState = useInputState();
                     style={MainStyles.input}
                     size='medium'
                     placeholder='Numero de Metros'
-                    {...metrosInputState}
+                    onChangeText={text => setMetersInputValue(text)}
+                    value={metersInputValue}
                 />
                 <Input
                     textStyle={MainStyles.textInputStyle}
                     label={evaProps => <Text {...evaProps} style={MainStyles.Label}>Link Google Maps</Text>}
                     style={MainStyles.input}
                     size='medium'
-                    placeholder='Link de google Maps'
-                    {...googleMapsInputState}
+                    placeholder='Localizacion'
+                    onChangeText={text => setLocationInputValue(text)}
+                    value={locationInputValue}
                 />
-                <Button style={MainStyles.primaryButton} accessoryRight={RightIcon}>
+                <Button onPress={() => handleUpdate()} style={MainStyles.primaryButton} accessoryRight={RightIcon}>
                     Enviar
                 </Button>
             </Layout>
