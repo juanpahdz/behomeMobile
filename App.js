@@ -1,112 +1,69 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
-
 import React from 'react';
-import type {Node} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+import Toast from 'react-native-toast-message';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+import {NavigationContainer} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
 
-const Section = ({children, title}): Node => {
-  const isDarkMode = useColorScheme() === 'dark';
+import * as eva from '@eva-design/eva';
+import {ApplicationProvider, IconRegistry} from '@ui-kitten/components';
+import { EvaIconsPack } from '@ui-kitten/eva-icons';
+
+import SpashScreen from './src/screens/splashscreen/SplashScreen'
+import HomePage from './src/screens/customer/homepage/HomePageScreen'
+import LoginPage from './src/screens/auth/login/LoginScreen'
+import RegisterPage from './src/screens/auth/register/RegisterScreen'
+import EditPage from './src/screens/customer/apartments/edit/EditScreen'
+import ApartmentsScreen from './src/screens/customer/apartments/ApartmentsScreen'
+
+const Stack = createStackNavigator(); //inicializa la navegación
+
+const App = () => {
   return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen
+          name="SplashScreen"
+          component={SpashScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="HomePage"
+          component={HomePage}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="LoginScreen"
+          component={LoginPage}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="RegisterScreen"
+          component={RegisterPage}
+          options={{headerShown: false}}
+        />
+
+        <Stack.Screen
+          name="EditScreen"
+          component={EditPage}
+        />
+
+        <Stack.Screen
+          name="ApartmentsScreen"
+          component={ApartmentsScreen}
+          options={{headerShown: false}}
+        />
+
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 };
 
-const App: () => Node = () => {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
-  return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>Hlow there</Text> Good Change
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
-};
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
-
-export default App;
+export default () => (
+  <>
+    <IconRegistry icons={EvaIconsPack} />
+    <ApplicationProvider {...eva} theme={eva.light}>
+      <App />
+    </ApplicationProvider>
+    <Toast ref={(ref) => Toast.setRef(ref)} />
+  </>
+);
