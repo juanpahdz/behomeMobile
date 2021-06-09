@@ -1,6 +1,7 @@
 import React from 'react';
 import MainStyles from '../../../shared/styles/mainStyles';
-import {View, ScrollView, Dimensions, Image, TouchableOpacity} from 'react-native';
+import {View, ScrollView, Dimensions, Image, TouchableOpacity, SafeAreaView} from 'react-native';
+
 import Styles from './HomePageStyles';
 import {
   ApplicationProvider,
@@ -12,6 +13,14 @@ import {
 } from '@ui-kitten/components';
 
 const HomePage = ({navigation}) => {
+
+  const useInputState = (initialValue = '') => {
+    const [value, setValue] = React.useState(initialValue);
+    return {value, onChangeText: setValue};
+  };
+
+  const searchBarInput = useInputState();
+
   const renderIcon = props => (
     <Icon {...props} fill="#FF595D" name="search-outline" />
   );
@@ -25,8 +34,10 @@ const HomePage = ({navigation}) => {
   }
 
   const StarIcon = props => <Icon {...props} name="star" />;
-
+  
+  
   return (
+    <SafeAreaView>  
     <ScrollView vertical={true} >
       <Text style={MainStyles.textLogo} category="h4">
         beHome.com
@@ -37,6 +48,7 @@ const HomePage = ({navigation}) => {
           placeholder="Encontremos tu próximo hogar"
           value="asdsad"
           accessoryRight={renderIcon}
+          {...searchBarInput}
         />
       </Layout>
 
@@ -57,7 +69,7 @@ const HomePage = ({navigation}) => {
             </View>
             <Image
               style={Styles.frontBanerImage}
-              source={require('./img/frontbaner2.png').default}
+              source={require('./img/frontbaner2.png')}
             />
           </View>
           <View style={Styles.frontBaner}>
@@ -508,6 +520,7 @@ const HomePage = ({navigation}) => {
         </Layout>
       </Layout>
     </ScrollView>
+    </SafeAreaView>
   );
 };
 

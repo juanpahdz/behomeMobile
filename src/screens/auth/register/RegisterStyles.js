@@ -5,7 +5,8 @@ const RegisterStyles = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: 'row',
-        marginTop: -20
+        marginTop: -20,
+        height: Dimensions.get("screen").height + 150,
       },
       layout: {
         flex: 1,

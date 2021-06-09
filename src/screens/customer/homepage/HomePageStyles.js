@@ -5,6 +5,7 @@ const HomePageStyles = StyleSheet.create({
     container: {
         marginTop: 10,
         marginHorizontal:20,
+        backgroundColor: "transparent"
     },
 
     searchbar: { 

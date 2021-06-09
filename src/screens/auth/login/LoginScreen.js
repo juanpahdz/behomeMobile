@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, Image, ScrollView, TouchableWithoutFeedback, Link} from 'react-native';
+import {View, Image, ScrollView, TouchableWithoutFeedback, Link, SafeAreaView} from 'react-native';
 
 import Toast from 'react-native-toast-message';
 
@@ -89,9 +89,6 @@ const toggleSecureEntry = () => {
 
   return (
     <Layout style={styles.container}>
-      {/* <Button style={MainStyles.closeButton}>
-        <Text style={MainStyles.closeButton}>X</Text>
-      </Button> */}
       <Layout style={styles.content}>
         <Layout style={styles.titleLayout}>
           <Text style={styles.textLogo} category="h1">
@@ -133,7 +130,7 @@ const toggleSecureEntry = () => {
             </Text>
         </Layout>
       </Layout>
-      <Image source={require('./img/loginscreen.jpg')} />
+      <Image style={styles.bgimage} source={require('./img/loginscreen.jpg')} />
     </Layout>
   );
 };

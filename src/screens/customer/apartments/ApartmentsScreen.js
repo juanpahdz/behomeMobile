@@ -53,7 +53,7 @@ const ApartmentsScreen = ({navigation}) => {
         getApartments();
       }, []);
   return (
-    <ScrollView vertical={true} >
+    <ScrollView style={{paddingTop: 60}} vertical={true} >
       <Text style={MainStyles.textLogo} category="h4">
         beHome.com
       </Text>

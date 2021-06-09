@@ -18,7 +18,8 @@ const LoginStyles = StyleSheet.create({
         backgroundColor: "rgba(0, 0, 0, 0.60)",
         zIndex: 10,
         alignItems:"center",
-        display: "flex"
+        display: "flex",
+        paddingTop: 50
     },
 
     titleLayout:{
@@ -80,6 +81,12 @@ const LoginStyles = StyleSheet.create({
         color: "white",
         fontFamily: Variables.secFontR,
         fontSize: 14
+    },
+
+    bgimage:{
+        height: Dimensions.get("screen").height,
+        width: Dimensions.get("screen").width,
+        resizeMode: "cover"
     }
 
 }); 

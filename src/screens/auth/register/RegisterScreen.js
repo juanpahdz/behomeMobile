@@ -73,6 +73,10 @@ const password = useInputState();
     }
     };
 
+    const goToLogin = () =>{
+      navigation.navigate('LoginScreen');
+    }
+
     return <ScrollView 
     style={{paddingVertical: 0}}
     showsVerticalScrollIndicator={false}>
@@ -142,7 +146,7 @@ const password = useInputState();
                 style={MainStyles.primaryButton}>
                 Registrarse
             </Button>
-            <Text style={styles.LastSettignsText}>
+            <Text onPress={() => goToLogin()} style={styles.LastSettignsText}>
                 Tienes ya una cuenta? Inicia Sesion Aqui
             </Text>
         </Layout>
